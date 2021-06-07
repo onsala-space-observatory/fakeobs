@@ -1,0 +1,5 @@
+*.pyc
+mytasks.py
+fakeobs.py
+fakeobs_cli.py
+*~
