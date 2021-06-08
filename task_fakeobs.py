@@ -44,12 +44,11 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+import os
+import shutil
+import numpy as np
 from taskinit import *
 from simutil import *
-import numpy as np
-import shutil
-import os
-
 
 def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
             inwidth='', spw='0', field_name='', frame='LSRK', ref_field=-1, stretch_spw=False,
@@ -61,24 +60,24 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
     myverb = False
 
     if myverb:
-        print 'VERBOSE MODE ON'
+        print('VERBOSE MODE ON')
 
     nm = 'fakeobs'
     indirection = ''
 
     if myverb:
-        print 'LOAD SIMULTIL'
+        print('LOAD SIMULTIL')
 
     util = simutil(indirection)
     util.verbose = True
 
     if myverb:
-        print 'SIMULTIL MESSAGE'
+        print('SIMULTIL MESSAGE')
 
     msg = util.msg
 
     if myverb:
-        print 'SETTING INPUTS'
+        print('SETTING INPUTS')
 
     spw = str(spw)
     field_name = str(field_name)
@@ -95,16 +94,16 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
         frame = 'LSRK'
 
     if myverb:
-        print vis
-        print field_name
-        print outputvis
-        print model
-        print incell
-        print incenter
-        print inwidth
-        print spw
-        print ref_field
-        print corrupt
+        print(vis)
+        print(field_name)
+        print(outputvis)
+        print(model)
+        print(incell)
+        print(incenter)
+        print(inwidth)
+        print(spw)
+        print(ref_field)
+        print(corrupt)
 
     if not os.path.exists(vis):
         msg('Measurement set \'%s\' does not exist!' %
@@ -163,40 +162,40 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
         shutil.copytree(vis, outputvis)
 
     if myverb:
-        print 'OPENING NEW MS'
+        print('OPENING NEW MS')
 
     ms.open(outputvis)
     spInfo = ms.getspectralwindowinfo()
     ms.close()
 
     if myverb:
-        print 'SETTING FRAME TO %s' % frame
+        print('SETTING FRAME TO %s' % frame)
 
     if myverb:
-        print 'OPEN SPW TABLE'
+        print('OPEN SPW TABLE')
     tb.open(os.path.join(outputvis, 'SPECTRAL_WINDOW'), nomodify=False)
     if myverb:
-        print 'GET FRAME COLUMN'
+        print('GET FRAME COLUMN')
     aux = tb.getcol('MEAS_FREQ_REF')
     if myverb:
-        print 'SET FRAME VALUES TO %i' % frRef[frame]
+        print('SET FRAME VALUES TO %i' % frRef[frame])
     aux[:] = frRef[frame]
     if myverb:
-        print 'SET FRAME'
+        print('SET FRAME')
     tb.putcol('MEAS_FREQ_REF', aux)
     tb.close()
 
     if myverb:
-        print 'DONE!'
+        print('DONE!')
 
     if myverb:
-        print 'GETTING MS METADATA'
+        print('GETTING MS METADATA')
 
     ms.open(outputvis)
     mtInfo = ms.metadata()
 
     if myverb:
-        print 'SELECTING SPWS'
+        print('SELECTING SPWS')
 
     if len(selsp) == 0:
         selsp = sorted(map(int, spInfo.keys()))
@@ -212,7 +211,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
         return False
 
     if myverb:
-        print 'GETTING SPW FREQUENCY RANGES'
+        print('GETTING SPW FREQUENCY RANGES')
 
     frs = []
     for sp in selsp:
@@ -225,7 +224,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
     msg('Selected spws: %s' % str(selsp), origin=nm, priority='warn')
 
     if myverb:
-        print 'SETTING FIELDS'
+        print('SETTING FIELDS')
 
     try:
         fields = mtInfo.fieldsforname(field_name)
@@ -251,7 +250,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
         modcoord = False
 
     if myverb:
-        print 'GETTING SOURCE DIRECTION'
+        print('GETTING SOURCE DIRECTION')
 
     if not modcoord:
         tb.open(os.path.join(vis, 'FIELD'))
@@ -267,7 +266,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
             tb.close()
 
     if myverb:
-        print 'GETTING MODEL FREQUENCIES'
+        print('GETTING MODEL FREQUENCIES')
 
     ia.open(model)
     summ = ia.summary()
@@ -291,7 +290,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
     ia.close()
 
     if myverb:
-        print 'SETTING SOURCE DIRECTION'
+        print('SETTING SOURCE DIRECTION')
 
     RA = refdir[0]*180./np.pi/15.
     Dec = refdir[1]*180./np.pi
@@ -329,13 +328,13 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
         shutil.rmtree(newmodel)
 
     if myverb:
-        print model
-        print newmodel
-        print inbright
-        print cdir
-        print incell
-        print incenter
-        print inwidth
+        print(model)
+        print(newmodel)
+        print(inbright)
+        print(cdir)
+        print(incell)
+        print(incenter)
+        print(inwidth)
 
     msg('Preparing model', origin=nm, priority='warn')
     returnpars = util.modifymodel(model, newmodel,
@@ -346,7 +345,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
     if stretch_spw:
 
         if myverb:
-            print 'STRETCH SPWs'
+            print('STRETCH SPWs')
 
         ia.open(newmodel)
         summ = ia.summary()
@@ -360,9 +359,9 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
         ImNu0 *= units[summ['axisunits'][NuAx]]
         ImNu1 *= units[summ['axisunits'][NuAx]]
 
-        print '\n\nModel image covers from %.8e to %.8e Hz' % (ImNu0, ImNu1)
-        print 'Selected spws cover from %.8e to %.8e Hz' % (minFr, maxFr)
-        print 'Will shift and stretch the spws to match the model\n\n'
+        print('\n\nModel image covers from %.8e to %.8e Hz' % (ImNu0, ImNu1))
+        print('Selected spws cover from %.8e to %.8e Hz' % (minFr, maxFr))
+        print('Will shift and stretch the spws to match the model\n\n')
 
         Shift = ImNu0
         Stretch = (ImNu1-ImNu0)/(maxFr-minFr)
@@ -397,16 +396,16 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
     for spi in selsp:
         msg('Simulating spw %i' % spi, origin=nm, priority='warn')
         if myverb:
-            print 'Going to SETDATA'
+            print('Going to SETDATA')
         sm.setdata(fieldid=list(fields), spwid=spi)
         if myverb:
-            print 'Going to PREDICT'
+            print('Going to PREDICT')
         sm.predict(imagename=newmodel)
 
     sm.done()
 
     if myverb:
-        print 'DONE WITH SIMULATION'
+        print('DONE WITH SIMULATION')
 
     if add_factor != 0.0:
         msg('Adding original data to the model', origin=nm, priority="warn")
@@ -429,7 +428,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
     if corrupt:
 
         if myverb:
-            print 'ADDING NOISE TO SIMULATION'
+            print('ADDING NOISE TO SIMULATION')
 
         if os.path.exists(outputvis+'.noisy'):
             shutil.rmtree(outputvis+'.noisy')
