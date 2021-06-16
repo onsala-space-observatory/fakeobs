@@ -141,8 +141,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
     write = False
     if os.path.exists(outputvis):
         if not overwrite:
-            proceed = raw_input(
-                'OK to remove \'%s\'? \n Yes/No (Y):' % os.path.basename(outputvis))
+            proceed = input('OK to remove \'%s\'? \n Yes/No (Y):' % os.path.basename(outputvis))
             if 'Y' in proceed or 'y' in proceed or len(proceed) == 0:
                 write = True
             else:
