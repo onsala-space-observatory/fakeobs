@@ -11,7 +11,7 @@ Steps to install the `fakeobs` task into `casa`
 cd $HOME/.casa/NordicTools
 git clone <repository url>
 cd fakeobs
-buildmytasks --module fakeobs checkres.xml
+buildmytasks --module fakeobs fakeobs.xml
 ```
  2. Inside `casa` add the folder to your `PYTHONPATH`:
 
