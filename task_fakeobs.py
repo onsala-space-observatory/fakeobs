@@ -133,7 +133,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
                     selsp += range(io[0], io[1]+1)
                 else:
                     selsp.append(int(sp))
-        except:
+        except Exception:
             msg("BAD string \'%s\' to set the spectral window. Aborting!" %
                 str(spw), origin=nm, priority="error")
             return False
@@ -205,7 +205,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
 
     try:
         testsp = spInfo[str(max(selsp))]
-    except:
+    except Exception:
         msg('Spectral window %i does not exist! Aborting!' %
             max(selsp), origin=nm, priority='error')
         return False
@@ -228,7 +228,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
 
     try:
         fields = mtInfo.fieldsforname(field_name)
-    except:
+    except Exception:
         msg('Field name \'%s\' not found in data. Aborting!' %
             field_name, origin=nm, priority='error')
         return False
@@ -257,7 +257,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
         try:
             # TO CHECK WITH MULTI-SOURCE!
             refdir = tb.getcol('REFERENCE_DIR')[:, 0, ref_field]
-        except:
+        except Exception:
             tb.close()
             msg('Could not get position from ref. field. Aborting!',
                 origin=nm, priority='error')
@@ -282,7 +282,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
             inwidth = '%.1fHz' % (
                 summ['incr'][NuAx]*units[summ['axisunits'][NuAx]])
 
-    except:
+    except Exception:
         # else:
         msg('ERROR! Model does not have a standard header (or freq. units)',
             origin=nm, priority='error')
