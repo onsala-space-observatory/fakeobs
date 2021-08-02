@@ -7,14 +7,9 @@ xsi:schemaLocation="http://casa.nrao.edu/schema/casa.xsd
 file:///opt/casa/code/xmlcasa/xml/casa.xsd">
 
 <task type="function" name="fakeobs" category="simulation">
-
   <shortdescription>Simulates data on already-existing measurement sets.</shortdescription>
-      
   <description>Simulates data on already-existing measurement sets.</description>
-
-
-<input>
-
+  <input>
     <param type="string" name="vis" mustexist="false">
       <description>Input measurement set (can be real data!).</description>
       <value></value>
@@ -25,18 +20,15 @@ file:///opt/casa/code/xmlcasa/xml/casa.xsd">
       <value></value>
     </param>
 
-
     <param type="string" name="model" mustexist="false">
       <description>Model of the observed source. Can\nbe a CASA image (cube) or a FITS\nimage (cube).</description>
       <value></value>
     </param>
 
-
     <param type="string" name="incell" mustexist="false">
       <description>Pixel size of the model image (must have\nunits!). If it\'s not given, the original \npixel size of the model image will\nbe used. E.g.: \'0.1arcsec\'.\nBEWARE that changing the pixel size of\na model (given in Jy/pixel) will change\nits total flux density</description>
       <value></value>
     </param>
-
 
     <param type="string" name="inbright" mustexist="false">
       <description>Value of absolute peak of the model\nimage (cube). Must have units. If it\'s not\ngiven, the model flux density will\nnot be rescaled.\nE.g.: \'1.0Jy/pixel\'</description>
@@ -47,7 +39,6 @@ file:///opt/casa/code/xmlcasa/xml/casa.xsd">
       <description>Frequency of the central channel of\nthe image cube (it the image only has one\nchannel, this will be the frequency\nof the channel). Must have\nunits. If it\'s not given, the original\nfrequency value will be used.\nE.g.: \'100GHz\'.\nNOTICE that this changes the\nMODEL IMAGE, but not the frequency setup\nof the DATASET.</description>
       <value></value>
     </param>
-
 
     <param type="string" name="inwidth" mustexist="false">
       <description>Width of the frequency channels of\nthe model image (must have units). If\nit\'s not given, the original width of\nthe model image will be used.\nE.g.: \'10kHz\'.\nNOTICE that this changes the MODEL IMAGE,\nbut not the frequency setup\nof the DATASET.</description>
@@ -69,7 +60,6 @@ file:///opt/casa/code/xmlcasa/xml/casa.xsd">
       <value>LSRK</value>
     </param>
 
-
     <param type="int" name="ref_field" mustexist="false">
       <description>Field id used to reference the\ncenter position of the model (i.e., if\nthe data to simulate are a mosaic,\nthis should be the field id of the\nmosaic center). If a negative number\nis given, the coordinates of the\nmodel image will not be changed.\nWARNING! if a Solar-System object\nis being simulated, set this to -1\nand set the right coordinates in\nyour model image header.</description>
       <value>-1</value>
@@ -89,7 +79,6 @@ file:///opt/casa/code/xmlcasa/xml/casa.xsd">
       <description>If not zero, the original data (multiplied\nby this factor) will be ADDED to\nthe fakeobs model.\nE.g., if add_factor=-1, the final\nmeasurement set will have the model\nvisibilities *minus* the\noriginal visibilities.</description>
       <value>0.0</value>
     </param>
-
 
     <param type="int" name="seed" mustexist="false">
       <description>Seed for the random-number generator.</description>
@@ -117,35 +106,28 @@ file:///opt/casa/code/xmlcasa/xml/casa.xsd">
       <value>50.0</value>
     </param>
 
-
-
     <param type="boolean" name="overwrite" mustexist="false">
       <description>If False, asks everytime that a\nfile or measurement set has to be\ndeleted (e.g., if this task is\nrun several times with the same\nparameters). If the user selects to not\ndelete that file, it will be reused as\nit is. If \'overwrite\' is set to True,\nthe file will be removed without\nasking to the user.</description>
       <value>False</value>
     </param>
-
-
-
-  <constraints>
-  </constraints>
-
-</input>
+    <constraints>
+    </constraints>
+  </input>
 
   <returns type="bool"/>
 
   <example>
-
-Let us suppose that there is a measurement with real data named 
-\'M100.ms\'. In this dataset, there are several sources observed 
-(e.g., bandpass calibrator, phase calibrator, target, etc.) and 
-the target source, named \'M100\' has been observed in mosaic 
+Let us suppose that there is a measurement with real data named
+\'M100.ms\'. In this dataset, there are several sources observed
+(e.g., bandpass calibrator, phase calibrator, target, etc.) and
+the target source, named \'M100\' has been observed in mosaic
 mode, being the mosaic center the field id number 3.
 
-If we want to substitute the real observations of M100 with 
-simulations computed from a model source, this is the task to 
+If we want to substitute the real observations of M100 with
+simulations computed from a model source, this is the task to
 use. Let us suppose that the observations are taken from 100GHz
-to 116GHz (4 spectral windows in 2 sidebands of 2GHz each). 
-The input parameters for fakeobs could then be: 
+to 116GHz (4 spectral windows in 2 sidebands of 2GHz each).
+The input parameters for fakeobs could then be:
 
 vis = \'M100.ms\'
 
@@ -155,35 +137,32 @@ ref_field = 3
 
 outputvis = \'mysimulation.ms\'
 
-spw = \'0~3\' (if we want to overwrite all the data with 
+spw = \'0~3\' (if we want to overwrite all the data with
                simulations).
 
 model = \'mymodelimage.fits\' (an image; or an image cube).
 
-incenter = \'108GHz\' ;  inwidth = \'100MHz\' 
-If the image cube has a minimum of 160 channels, these 
-values of incenter and inwidth will ensure that the 
-frequency coverage of the model extends to all the 
-frequency coverage of the data. Otherwise, some edge 
-channels of the data set will be replaced by zeros! 
+incenter = \'108GHz\' ;  inwidth = \'100MHz\'
+If the image cube has a minimum of 160 channels, these
+values of incenter and inwidth will ensure that the
+frequency coverage of the model extends to all the
+frequency coverage of the data. Otherwise, some edge
+channels of the data set will be replaced by zeros!
 
-The user must take care that his/her model will cover the 
-frequencies of all the spws to simulate, unless "stretch_spw" 
+The user must take care that his/her model will cover the
+frequencies of all the spws to simulate, unless "stretch_spw"
 is set to True
 
-incell = \'0.01arcsec\' This helps to play with different 
-                        effective source sizes without 
-                        having to regenerate new model 
+incell = \'0.01arcsec\' This helps to play with different
+                        effective source sizes without
+                        having to regenerate new model
                         images.
 
-That\'s it. Fakeobs should now run, make a copy of 
-\'M100.ms\' into \'mysimulation.ms\' and replace all the 
-observations of source \'M100\' (a mosaic) with a 
+That\'s it. Fakeobs should now run, make a copy of
+\'M100.ms\' into \'mysimulation.ms\' and replace all the
+observations of source \'M100\' (a mosaic) with a
 simulation using the corresponding source model.
 
 </example>
 </task>
-
 </casaxml>
-
-

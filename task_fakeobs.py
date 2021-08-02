@@ -44,12 +44,11 @@
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+import os
+import shutil
+import numpy as np
 from taskinit import *
 from simutil import *
-import numpy as np
-import shutil
-import os
-
 
 def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
             inwidth='', spw='0', field_name='', frame='LSRK', ref_field=-1, stretch_spw=False,
@@ -445,7 +444,9 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
         if telescopename not in knowntelescopes:
             msg("Telescope name \'%s\' is none of ALMA/ACA, (J)VLA, or SMA" %
                 telescopename, origin=nm, priority="warn")
-            msg("Data corruption will only account for receivers (if you set t_receiver) and atmosphere (i.e., no spillover nor antenna/correlator related efficiencies).", origin=nm, priority="warn")
+            msg("Data corruption will only account for receivers (if you set t_receiver) " +
+                "and atmosphere (i.e., no spillover nor antenna/correlator related efficiencies).",
+                origin=nm, priority="warn")
             known = False
 
         eta_p, eta_s, eta_b, eta_t, eta_q, t_rx = util.noisetemp(
@@ -471,14 +472,13 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
                     msg('Corrupting data in spw %i' %
                         spi, origin=nm, priority='warn')
                     if not known:
-                        msg("Please, forget the last printouts from \'[noisetemp]\'.\nI\'m indeed using %.2f K as the receiver temperature." %
+                        msg("Please, forget the last printouts from \'[noisetemp]\'.\n" +
+                            "I\'m indeed using %.2f K as the receiver temperature." %
                             t_rx, origin=nm, priority="warn")
                     sm.corrupt()
 
     sm.done()
-
     return True
-
 
 # if __name__=='__main__':
 #  fakeobs(vis = 'flaggedspw2_self2_v.contsub_subset',
