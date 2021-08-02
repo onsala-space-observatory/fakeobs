@@ -1,5 +1,5 @@
+*.pyc
+mytasks.py
 fakeobs.py
 fakeobs_cli.py
-fakeobs_cli.pyc
-mytasks.py
-task_fakeobs.pyc
+*~
