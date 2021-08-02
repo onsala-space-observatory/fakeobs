@@ -8,7 +8,8 @@ file:///opt/casa/code/xmlcasa/xml/casa.xsd">
 
 <task type="function" name="fakeobs" category="simulation">
   <shortdescription>Simulates data on already-existing measurement sets.</shortdescription>
-  <description>Simulates data on already-existing measurement sets.</description>
+  <description>Substitute the real observations of a source with
+  simulations computed from a model source.</description>
   <input>
     <param type="string" name="vis" mustexist="false">
       <description>Input measurement set (can be real data!).</description>
