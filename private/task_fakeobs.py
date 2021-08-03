@@ -47,8 +47,13 @@
 import os
 import shutil
 import numpy as np
-from taskinit import *
-from simutil import *
+import casatools
+from casatasks.private.simutil import simutil
+
+ms = casatools.ms()
+tb = casatools.table()
+ia = casatools.image()
+sm = casatools.simulator()
 
 def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
             inwidth='', spw='0', field_name='', frame='LSRK', ref_field=-1, stretch_spw=False,
@@ -133,7 +138,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
                     selsp += range(io[0], io[1]+1)
                 else:
                     selsp.append(int(sp))
-        except:
+        except Exception:
             msg("BAD string \'%s\' to set the spectral window. Aborting!" %
                 str(spw), origin=nm, priority="error")
             return False
@@ -204,7 +209,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
 
     try:
         testsp = spInfo[str(max(selsp))]
-    except:
+    except Exception:
         msg('Spectral window %i does not exist! Aborting!' %
             max(selsp), origin=nm, priority='error')
         return False
@@ -214,8 +219,8 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
 
     frs = []
     for sp in selsp:
-        frs += [spInfo[str(sp)]['Chan1Freq'], spInfo[str(sp)]['Chan1Freq'] +
-                spInfo[str(sp)]['ChanWidth']*spInfo[str(sp)]['NumChan']]
+        frs += [spInfo[str(sp)]['Chan1Freq'], spInfo[str(sp)]['Chan1Freq']
+                + spInfo[str(sp)]['ChanWidth']*spInfo[str(sp)]['NumChan']]
 
     minFr = min(frs)
     maxFr = max(frs)
@@ -227,7 +232,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
 
     try:
         fields = mtInfo.fieldsforname(field_name)
-    except:
+    except Exception:
         msg('Field name \'%s\' not found in data. Aborting!' %
             field_name, origin=nm, priority='error')
         return False
@@ -256,7 +261,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
         try:
             # TO CHECK WITH MULTI-SOURCE!
             refdir = tb.getcol('REFERENCE_DIR')[:, 0, ref_field]
-        except:
+        except Exception:
             tb.close()
             msg('Could not get position from ref. field. Aborting!',
                 origin=nm, priority='error')
@@ -281,7 +286,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
             inwidth = '%.1fHz' % (
                 summ['incr'][NuAx]*units[summ['axisunits'][NuAx]])
 
-    except:
+    except Exception:
         # else:
         msg('ERROR! Model does not have a standard header (or freq. units)',
             origin=nm, priority='error')
@@ -310,8 +315,7 @@ def fakeobs(vis='', outputvis='', model='', incell='', inbright='', incenter='',
     write = False
     if os.path.exists(newmodel):
         if not overwrite:
-            proceed = raw_input(
-                'OK to remove \'%s\'? \n Yes/No (Y):' % os.path.basename(newmodel))
+            proceed = input("OK to remove '%s'? \n Yes/No (Y):" % os.path.basename(newmodel))
             if 'Y' in proceed or 'y' in proceed or len(proceed) == 0:
                 write = True
             else:
