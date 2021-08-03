@@ -1,6 +1,15 @@
 import sys
 import os
 
+import casatools
+from casatasks import simobserve
+from casatasks import clearcal
+from casatasks import tclean
+
+mydir = os.getenv("HOME") + "/ARC"
+sys.path.insert(0, mydir)
+from fakeobs.gotasks.fakeobs import fakeobs
+
 vis = "Disc/Disc.alma.out10.noisy.ms"
 outputvis = "fakeobs.ms"
 model = "Disc.model"
