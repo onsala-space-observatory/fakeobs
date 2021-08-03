@@ -1,106 +1,106 @@
-<casaxml xsi:schemaLocation="http://casa.nrao.edu/schema/casa.xsd file:///opt/casa/code/xmlcasa/xml/casa.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://casa.nrao.edu/schema/psetTypes.html">
+<casaxml xsi:schemaLocation="http://casa.nrao.edu/schema/casa.xsd file:///opt/casa/code/xmlcasa/xml/casa.xsd" xmlns="http://casa.nrao.edu/schema/psetTypes.html" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-<task category="simulation" name="fakeobs" type="function">
+<task type="function" name="fakeobs" category="simulation">
   <shortdescription>Simulates data on already-existing measurement sets.</shortdescription>
   <description>Simulates data on already-existing measurement sets.</description>
   <input>
-    <param mustexist="false" name="vis" type="path">
+    <param type="path" name="vis" mustexist="false">
       <description>Input measurement set (can be real data!).</description>
       <value/>
     </param>
 
-    <param mustexist="false" name="outputvis" type="path">
+    <param type="path" name="outputvis" mustexist="false">
       <description>Output measurement set (i.e., with simulated\n data). Will have the same structure\n(i.e., antennas, scans, spectral windows,\netc.) as the input ms.</description>
       <value/>
     </param>
 
-    <param mustexist="false" name="model" type="path">
+    <param type="path" name="model" mustexist="false">
       <description>Model of the observed source. Can\nbe a CASA image (cube) or a FITS\nimage (cube).</description>
       <value/>
     </param>
 
-    <param mustexist="false" name="incell" type="path">
+    <param type="path" name="incell" mustexist="false">
       <description>Pixel size of the model image (must have\nunits!). If it\'s not given, the original \npixel size of the model image will\nbe used. E.g.: \'0.1arcsec\'.\nBEWARE that changing the pixel size of\na model (given in Jy/pixel) will change\nits total flux density</description>
       <value/>
     </param>
 
-    <param mustexist="false" name="inbright" type="path">
+    <param type="path" name="inbright" mustexist="false">
       <description>Value of absolute peak of the model\nimage (cube). Must have units. If it\'s not\ngiven, the model flux density will\nnot be rescaled.\nE.g.: \'1.0Jy/pixel\'</description>
       <value/>
     </param>
 
-    <param mustexist="false" name="incenter" type="path">
+    <param type="path" name="incenter" mustexist="false">
       <description>Frequency of the central channel of\nthe image cube (it the image only has one\nchannel, this will be the frequency\nof the channel). Must have\nunits. If it\'s not given, the original\nfrequency value will be used.\nE.g.: \'100GHz\'.\nNOTICE that this changes the\nMODEL IMAGE, but not the frequency setup\nof the DATASET.</description>
       <value/>
     </param>
 
-    <param mustexist="false" name="inwidth" type="path">
+    <param type="path" name="inwidth" mustexist="false">
       <description>Width of the frequency channels of\nthe model image (must have units). If\nit\'s not given, the original width of\nthe model image will be used.\nE.g.: \'10kHz\'.\nNOTICE that this changes the MODEL IMAGE,\nbut not the frequency setup\nof the DATASET.</description>
       <value/>
     </param>
 
-    <param mustexist="false" name="spw" type="path">
+    <param type="path" name="spw" mustexist="false">
       <description>Spectral window(s) to overwrite\nwith the simulated data. Must follow\nCASA syntax, and only full spws\nare allowed. E.g.: \'0~3\'</description>
       <value>0</value>
     </param>
 
-    <param mustexist="false" name="field_name" type="path">
+    <param type="path" name="field_name" mustexist="false">
       <description> Name of the source to simulate.\nMosaic mode is allowed.</description>
       <value/>
     </param>
 
-    <param mustexist="false" name="frame" type="path">
+    <param type="path" name="frame" mustexist="false">
       <description> The frame of the spws will be\noverwritten to this value (accepts\neither LSRK of BARY). Default = LSRK</description>
       <value>LSRK</value>
     </param>
 
-    <param mustexist="false" name="ref_field" type="int">
+    <param type="int" name="ref_field" mustexist="false">
       <description>Field id used to reference the\ncenter position of the model (i.e., if\nthe data to simulate are a mosaic,\nthis should be the field id of the\nmosaic center). If a negative number\nis given, the coordinates of the\nmodel image will not be changed.\nWARNING! if a Solar-System object\nis being simulated, set this to -1\nand set the right coordinates in\nyour model image header.</description>
       <value>-1</value>
     </param>
 
-    <param mustexist="false" name="stretch_spw" type="bool">
+    <param type="bool" name="stretch_spw" mustexist="false">
       <description>If True, the spw frequencies are\nstretched, so that they fill into the\nfrequency coverage of the model image\n(in the case that the model frequency\ncoverage is too narrow).\nUSE WITH CAUTION, since this stretching\ncould result in data with too\nhigh spectral resolutions!</description>
       <value>False</value>
     </param>
 
-    <param mustexist="false" name="corrupt" type="bool">
+    <param type="bool" name="corrupt" mustexist="false">
       <description>Whether to create two measurement\nsets: one with noise-free model visibilities\nand another with noisy ones. If set\nto false, only the noise-free\nvisibilities are created.</description>
       <value>False</value>
     </param>
 
-    <param mustexist="false" name="add_factor" type="double">
+    <param type="double" name="add_factor" mustexist="false">
       <description>If not zero, the original data (multiplied\nby this factor) will be ADDED to\nthe fakeobs model.\nE.g., if add_factor=-1, the final\nmeasurement set will have the model\nvisibilities *minus* the\noriginal visibilities.</description>
       <value>0.0</value>
     </param>
 
-    <param mustexist="false" name="seed" type="int">
+    <param type="int" name="seed" mustexist="false">
       <description>Seed for the random-number generator.</description>
       <value>42</value>
     </param>
 
-    <param mustexist="false" name="tau0" type="double">
+    <param type="double" name="tau0" mustexist="false">
       <description>Opacity at zenith.</description>
       <value>0.0</value>
     </param>
 
-    <param mustexist="false" name="t_sky" type="double">
+    <param type="double" name="t_sky" mustexist="false">
       <description>Sky temperature.</description>
       <value>250.0</value>
     </param>
 
-    <param mustexist="false" name="t_ground" type="double">
+    <param type="double" name="t_ground" mustexist="false">
       <description>Ground temperature.</description>
       <value>270.0</value>
     </param>
 
 
-    <param mustexist="false" name="t_receiver" type="double">
+    <param type="double" name="t_receiver" mustexist="false">
       <description>Receiver temperature (if not zero,\noverrides the one read from\nthe CASA database).</description>
       <value>50.0</value>
     </param>
 
-    <param mustexist="false" name="overwrite" type="bool">
+    <param type="bool" name="overwrite" mustexist="false">
       <description>If False, asks everytime that a\nfile or measurement set has to be\ndeleted (e.g., if this task is\nrun several times with the same\nparameters). If the user selects to not\ndelete that file, it will be reused as\nit is. If \'overwrite\' is set to True,\nthe file will be removed without\nasking to the user.</description>
       <value>False</value>
     </param>
