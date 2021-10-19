@@ -11,7 +11,9 @@
     </param>
 
     <param type="path" name="outputvis" mustexist="false">
-      <description>Output measurement set (i.e., with simulated  data). Will have the same structure (i.e., antennas, scans, spectral windows, etc.) as the input ms.</description>
+      <description>Output measurement set (i.e., with simulated data). Will have the same
+      structure (i.e., antennas, scans, spectral windows, etc.) as the input
+      ms.</description>
       <value/>
     </param>
 
@@ -20,58 +22,83 @@
       <value/>
     </param>
 
-    <param type="path" name="incell" mustexist="false">
-      <description>Pixel size of the model image (must have units!). If it is not given, the original  pixel size of the model image will be used. E.g.: "0.1arcsec". BEWARE that changing the pixel size of a model (given in Jy/pixel) will change its total flux density</description>
+    <param type="string" name="incell" mustexist="false">
+      <description>Pixel size of the model image (must have units!). If it is not given,
+      the original pixel size of the model image will be used. E.g.: "0.1arcsec". BEWARE
+      that changing the pixel size of a model (given in Jy/pixel) will change its total
+      flux density</description>
       <value/>
     </param>
 
-    <param type="path" name="inbright" mustexist="false">
-      <description>Value of absolute peak of the model image (cube). Must have units. If it is not given, the model flux density will not be rescaled. E.g.: "1.0Jy/pixel"</description>
+    <param type="string" name="inbright" mustexist="false">
+      <description>Value of absolute peak of the model image (cube). Must have units. If
+      it is not given, the model flux density will not be rescaled. E.g.:
+      "1.0Jy/pixel"</description>
       <value/>
     </param>
 
-    <param type="path" name="incenter" mustexist="false">
-      <description>Frequency of the central channel of the image cube (it the image only has one channel, this will be the frequency of the channel). Must have units. If it is not given, the original frequency value will be used. E.g.: "100GHz". NOTICE that this changes the MODEL IMAGE, but not the frequency setup of the DATASET.</description>
+    <param type="string" name="incenter" mustexist="false">
+      <description>Frequency of the central channel of the image cube (it the image only
+      has one channel, this will be the frequency of the channel). Must have units. If it
+      is not given, the original frequency value will be used. E.g.: "100GHz". NOTICE that
+      this changes the MODEL IMAGE, but not the frequency setup of the
+      DATASET.</description>
       <value/>
     </param>
 
-    <param type="path" name="inwidth" mustexist="false">
-      <description>Width of the frequency channels of the model image (must have units). If it is not given, the original width of the model image will be used. E.g.: "10kHz". NOTICE that this changes the MODEL IMAGE, but not the frequency setup of the DATASET.</description>
+    <param type="string" name="inwidth" mustexist="false">
+      <description>Width of the frequency channels of the model image (must have
+      units). If it is not given, the original width of the model image will be
+      used. E.g.: "10kHz". NOTICE that this changes the MODEL IMAGE, but not the frequency
+      setup of the DATASET.</description>
       <value/>
     </param>
 
-    <param type="path" name="spw" mustexist="false">
-      <description>Spectral window(s) to overwrite with the simulated data. Must follow CASA syntax, and only full spws are allowed. E.g.: "0~3"</description>
+    <param type="string" name="spw" mustexist="false">
+      <description>Spectral window(s) to overwrite with the simulated data. Must follow
+      CASA syntax, and only full spws are allowed. E.g.: "0~3"</description>
       <value>0</value>
     </param>
 
-    <param type="path" name="field_name" mustexist="false">
+    <param type="string" name="field_name" mustexist="false">
       <description> Name of the source to simulate. Mosaic mode is allowed.</description>
       <value/>
     </param>
 
     <param type="path" name="frame" mustexist="false">
-      <description> The frame of the spws will be overwritten to this value (accepts either LSRK of BARY). Default = LSRK</description>
+      <description> The frame of the spws will be overwritten to this value (accepts
+      either LSRK of BARY). Default = LSRK</description>
       <value>LSRK</value>
     </param>
 
     <param type="int" name="ref_field" mustexist="false">
-      <description>Field id used to reference the center position of the model (i.e., if the data to simulate are a mosaic, this should be the field id of the mosaic center). If a negative number is given, the coordinates of the model image will not be changed. WARNING! if a Solar-System object is being simulated, set this to -1 and set the right coordinates in your model image header.</description>
+      <description>Field id used to reference the center position of the model (i.e., if
+      the data to simulate are a mosaic, this should be the field id of the mosaic
+      center). If a negative number is given, the coordinates of the model image will not
+      be changed. WARNING! if a Solar-System object is being simulated, set this to -1 and
+      set the right coordinates in your model image header.</description>
       <value>-1</value>
     </param>
 
     <param type="bool" name="stretch_spw" mustexist="false">
-      <description>If True, the spw frequencies are stretched, so that they fill into the frequency coverage of the model image (in the case that the model frequency coverage is too narrow). USE WITH CAUTION, since this stretching could result in data with too high spectral resolutions!</description>
+      <description>If True, the spw frequencies are stretched, so that they fill into the
+      frequency coverage of the model image (in the case that the model frequency coverage
+      is too narrow). USE WITH CAUTION, since this stretching could result in data with
+      too high spectral resolutions!</description>
       <value>False</value>
     </param>
 
     <param type="bool" name="corrupt" mustexist="false">
-      <description>Whether to create two measurement sets: one with noise-free model visibilities and another with noisy ones. If set to false, only the noise-free visibilities are created.</description>
+      <description>Whether to create two measurement sets: one with noise-free model
+      visibilities and another with noisy ones. If set to false, only the noise-free
+      visibilities are created.</description>
       <value>False</value>
     </param>
 
     <param type="double" name="add_factor" mustexist="false">
-      <description>If not zero, the original data (multiplied by this factor) will be ADDED to the fakeobs model. E.g., if add_factor=-1, the final measurement set will have the model visibilities *minus* the original visibilities.</description>
+      <description>If not zero, the original data (multiplied by this factor) will be
+      ADDED to the fakeobs model. E.g., if add_factor=-1, the final measurement set will
+      have the model visibilities *minus* the original visibilities.</description>
       <value>0.0</value>
     </param>
 
@@ -102,7 +129,10 @@
     </param>
 
     <param type="bool" name="overwrite" mustexist="false">
-      <description>If False, asks everytime that a file or measurement set has to be deleted (e.g., if this task is run several times with the same parameters). If the user selects to not delete that file, it will be reused as it is. If "overwrite" is set to True, the file will be removed without asking to the user.</description>
+      <description>If False, asks everytime that a file or measurement set has to be
+      deleted (e.g., if this task is run several times with the same parameters). If the
+      user selects to not delete that file, it will be reused as it is. If "overwrite" is
+      set to True, the file will be removed without asking to the user.</description>
       <value>False</value>
     </param>
     <constraints>
